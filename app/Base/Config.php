@@ -9,15 +9,16 @@ class Config extends Model
 {
 	protected $baseUrl = 'http://127.0.0.1:8080/blog/public/tickets/';
 
-    public function getBaseUrl() : string
-	{
-		return $this->baseUrl;
-	}
-
 	public function getFrontendConfig() : array
 	{
 		return [
 			'baseUrl' => $this->baseUrl
 		];
 	}
+
+    public function getBaseUrl() : string
+	{
+		return $this->baseUrl;
+	}
+
 }

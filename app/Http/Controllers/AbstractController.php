@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Base\Config;
+//use App\Base\Config;
 
 abstract class AbstractController extends Controller
 {
-	protected $config;
+	//protected $config;
 
 	public function __construct(
-		Config $config
+		//Config $config
 	)
 	{
-		$this->config = $config;
+		//$this->config = $config;
 	}
 
 }

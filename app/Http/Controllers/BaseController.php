@@ -10,8 +10,6 @@ class BaseController extends AbstractController
 {
 	public function index() : View
 	{
-		return view('base.index', [
-			'baseFrontendConfig' => $this->config->getFrontendConfig()
-		]);
+		return view('base.index');
 	}
 }

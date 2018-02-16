@@ -12,7 +12,7 @@
             <div class="col-sm-12">
                 <nav>
                     <ul>
-                        <li><a href=""></a></li>
+                        <li><a href="{{$config['baseUrl']}}"></a></li>
                     </ul>
                 </nav>
             </div>
