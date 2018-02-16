@@ -12,7 +12,9 @@
             <div class="col-sm-12">
                 <nav>
                     <ul>
-                        <li><a href="{{$config['baseUrl']}}"></a></li>
+                        @foreach($navigation as $name => $url)
+                        <li><a href="{{$url}}">{{$name}}</a></li>
+                        @endforeach
                     </ul>
                 </nav>
             </div>

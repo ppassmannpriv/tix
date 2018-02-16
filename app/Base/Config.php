@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
-	protected $baseUrl = 'http://127.0.0.1:8080/blog/public/tickets/';
+	protected $baseUrl = 'http://127.0.0.1:8080/blog/public/';
 
 	public function getFrontendConfig() : array
 	{
@@ -21,4 +21,11 @@ class Config extends Model
 		return $this->baseUrl;
 	}
 
+	public function getNavigation() : array
+	{
+		return [
+			'Home' => $this->getBaseUrl(),
+			'Tickets' => $this->getBaseUrl().'tickets/'
+		];
+	}
 }

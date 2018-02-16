@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('partials.nav', function($view) {
 			$config = new Config;
         	$view->with('config', $config->getFrontendConfig());
+			$view->with('navigation', $config->getNavigation());
 		});
     }
 
