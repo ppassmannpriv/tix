@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.1col')
 
 @section('content')
     <h1>{{$ticket->name}}</h1>
