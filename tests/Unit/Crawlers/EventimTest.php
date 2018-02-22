@@ -24,16 +24,16 @@ class EventimTest extends TestCase
 
 	public function testNumberOfTicketsCanBeAvailable()
 	{
-
+		$this->markTestIncomplete();
 	}
 
 	public function testFansaleTicketsOfEventCanBeFound()
 	{
-
+		$this->markTestIncomplete();
 	}
 
 	public function testFansaleTicketsOfEventAreAvailable()
 	{
-		
+		$this->markTestIncomplete();
 	}
 }
