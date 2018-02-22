@@ -2,11 +2,20 @@
 
 namespace Tests\Unit;
 
+use App\Crawlers\Eventim;
+use GuzzleHttp\Client;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EventimTest extends TestCase
 {
+	private $crawler;
+
+	public function setUp()
+	{
+		$client = new Client;
+		$this->crawler = new Eventim([], $client);
+	}
 	/**
 	 * Test general connection to Eventim
 	 *
@@ -14,7 +23,11 @@ class EventimTest extends TestCase
 	 */
 	public function testEventimCanBeReached()
 	{
-		$this->markTestIncomplete();
+		$response = $this->crawler->getClient()->request('GET', 'http://www.eventim.de/yung-hurn-aachen-tickets.html?affiliate=EYA&doc=artistPages%2Ftickets&fun=artist&action=tickets&key=2078585%2410513338&jumpIn=yTix');
+		$this->assertEquals(
+			200,
+			$response->getStatusCode()
+		);
 	}
 
 	public function testEventCanBeFound()
