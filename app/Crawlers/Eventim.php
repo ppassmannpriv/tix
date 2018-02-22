@@ -1,7 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Crawlers;
 
+use Faker\Provider\DateTime;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class Eventim extends Base
@@ -11,10 +13,28 @@ class Eventim extends Base
 		return $this->httpClient;
 	}
 
-	public function getEventData($response)
+	public function getEventData(Response $response)
 	{
-		$dom = $this->dom->load($response->getBody()->getContents());
+		$html = $this->getParsedHtml($this->parseResponse($response));
+		$dateTime = \DateTime::createFromFormat('*, d.m.y, H:i *', $html->find('.ldt .ldtLocation .time')[0]->innerHtml);
+		$venue = $this->cleanVenue($html->find('.ldt .location a')[0]->innerHtml);
+		$location = $this->cleanLocation($venue, $html->find('.ldt .location')[0]->innerHtml);
+		$eventData = $this->createEventDataArray(
+			$html->find('#teaserHeadline')[0]->innerHtml,
+			$venue,
+			$location,
+			$dateTime->getTimestamp()
+	);
+		return $eventData;
+	}
 
-		return $dom->find('#teaserHeadline')[0]->innerHtml;
+	private function cleanVenue(string $input)
+	{
+		return strip_tags($input);
+	}
+
+	private function cleanLocation(string $remove, string $input)
+	{
+		return str_replace($remove, '', strip_tags($input));
 	}
 }
