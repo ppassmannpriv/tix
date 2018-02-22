@@ -3,10 +3,10 @@
 namespace App\Crawlers;
 
 use Illuminate\Database\Eloquent\Model;
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use Psr\Http\Message\RequestInterface;
 
-abstract class Base extends Model implements ClientInterface
+abstract class Base extends Model
 {
 	/**
 	 * Guzzle HTTP Client
@@ -17,7 +17,7 @@ abstract class Base extends Model implements ClientInterface
 
 	public function __construct(
 		array $attributes = [],
-		ClientInterface $httpClient
+		Client $httpClient
 	)
 	{
 		parent::__construct($attributes);
