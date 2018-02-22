@@ -32,6 +32,12 @@ class EventimTest extends TestCase
 
 	public function testEventCanBeFound()
 	{
+		$response = $this->crawler->getClient()->request('GET', 'http://www.eventim.de/yung-hurn-aachen-tickets.html?affiliate=EYA&doc=artistPages%2Ftickets&fun=artist&action=tickets&key=2078585%2410513338&jumpIn=yTix');
+		$event = $this->crawler->getEventData($response);
+		$this->assertEquals(
+			'Yung Hurn',
+			$event->getName()
+		);
 		$this->markTestIncomplete();
 	}
 
