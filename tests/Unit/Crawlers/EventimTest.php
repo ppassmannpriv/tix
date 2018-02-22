@@ -11,6 +11,8 @@ class EventimTest extends TestCase
 {
 	private $crawler;
 
+	const VERSION = '0.0.1';
+
 	public function setUp()
 	{
 		$client = new Client;
@@ -35,7 +37,7 @@ class EventimTest extends TestCase
 		$response = $this->crawler->getClient()->request('GET', 'http://www.eventim.de/yung-hurn-aachen-tickets.html?affiliate=EYA&doc=artistPages%2Ftickets&fun=artist&action=tickets&key=2078585%2410513338&jumpIn=yTix');
 		$event = $this->crawler->getEventData($response);
 		$this->assertEquals(
-			'Yung Hurn',
+			'Yung Hurn AACHEN - Tickets',
 			$event->getName()
 		);
 		$this->markTestIncomplete();

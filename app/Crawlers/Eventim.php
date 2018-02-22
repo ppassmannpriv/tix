@@ -10,4 +10,9 @@ class Eventim extends Base
 	{
 		return $this->httpClient;
 	}
+
+	public function getEventData($response)
+	{
+		
+	}
 }
