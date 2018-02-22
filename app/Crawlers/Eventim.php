@@ -13,6 +13,8 @@ class Eventim extends Base
 
 	public function getEventData($response)
 	{
-		
+		$dom = $this->dom->load($response->getBody()->getContents());
+
+		return $dom->find('#teaserHeadline')[0]->innerHtml;
 	}
 }

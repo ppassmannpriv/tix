@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Crawlers\Eventim;
 use GuzzleHttp\Client;
+use PHPHtmlParser\Dom;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,7 +17,8 @@ class EventimTest extends TestCase
 	public function setUp()
 	{
 		$client = new Client;
-		$this->crawler = new Eventim([], $client);
+		$dom = new Dom;
+		$this->crawler = new Eventim([], $client, $dom);
 	}
 	/**
 	 * Test general connection to Eventim
@@ -38,9 +40,8 @@ class EventimTest extends TestCase
 		$event = $this->crawler->getEventData($response);
 		$this->assertEquals(
 			'Yung Hurn AACHEN - Tickets',
-			$event->getName()
+			$event
 		);
-		$this->markTestIncomplete();
 	}
 
 	public function testNumberOfTicketsCanBeAvailable()
