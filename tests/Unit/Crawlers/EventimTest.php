@@ -38,12 +38,20 @@ class EventimTest extends TestCase
 	{
 		$response = $this->crawler->getClient()->request('GET', 'http://www.eventim.de/yung-hurn-aachen-tickets.html?affiliate=EYA&doc=artistPages%2Ftickets&fun=artist&action=tickets&key=2078585%2410513338&jumpIn=yTix');
 		$event = $this->crawler->getEventData($response);
+		$ticket = array(
+			'category' => '1',
+			'description' => 'Stehplatz',
+			'price' => 'Normalpreis',
+			'qty' => 0,
+			'available' => 'zzt. nicht verfügbar'
+		);
 		$this->assertEquals(
 			[
 				'name' => 'Yung Hurn AACHEN - Tickets',
 				'venue' => 'Musikbunker Aachen',
 				'location' => 'Rehmannstr. 26, 52066 AACHEN',
-				'timestamp' => 1523044800
+				'timestamp' => 1523044800,
+				'tickets' => $ticket
 			],
 			$event
 		);

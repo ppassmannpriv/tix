@@ -59,14 +59,16 @@ abstract class Base extends Model
 		string $name,
 		string $venue,
 		string $location,
-		int $timestamp
+		int $timestamp,
+		array $tickets
 	)
 	{
 		return [
 			'name' => $name,
 			'venue' => $venue,
 			'location' => $location,
-			'timestamp' => $timestamp
+			'timestamp' => $timestamp,
+			'tickets' => $tickets
 		];
 	}
 
