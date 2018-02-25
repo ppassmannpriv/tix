@@ -60,19 +60,17 @@ class Eventim extends Base
 
 	private function getQty($row)
 	{
-		if($row->find('.availability')[0]->innerHtml)
+		if($this->getAvailability($row) === 'zzt. nicht verfügbar')
 		{
-
+			return 0;
+		} else {
+			return 1;
 		}
-		return strip_tags(str_replace('&nbsp;', '', $row->find('.availability')[0]->innerHtml));
+
 	}
 
 	private function getAvailability($row)
 	{
-		if($row->find('.availability')[0]->innerHtml)
-		{
-
-		}
 		return strip_tags(str_replace('&nbsp;', '', $row->find('.availability')[0]->innerHtml));
 	}
 }
