@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 use PHPHtmlParser\Dom;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\InvalidArgumentException;
 
 abstract class Base extends Model
 {
@@ -42,7 +43,15 @@ abstract class Base extends Model
 	 */
 	protected function parseResponse(Response $response) : string
 	{
-		return $response->getBody()->getContents();
+		$contents = '';
+		try {
+			$contents = $response->getBody()->getContents();
+		} catch (InvalidArgumentException $e)
+		{
+			report($e);
+		}
+
+		return $contents;
 	}
 
 	/**
@@ -52,7 +61,15 @@ abstract class Base extends Model
 	 */
 	protected function getParsedHtml(string $string) : \PHPHtmlParser\Dom
 	{
-		return $this->dom->load($string);
+		try {
+			$dom = $this->dom->load($string);
+		} catch (InvalidArgumentException $e)
+		{
+			report($e);
+
+			return $this->dom->load('');
+		}
+		return $dom;
 	}
 
 	protected function createEventDataArray(

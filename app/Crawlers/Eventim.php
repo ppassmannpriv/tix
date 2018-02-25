@@ -16,32 +16,44 @@ class Eventim extends Base
 
 	public function getEventData(Response $response)
 	{
-		$html = $this->getParsedHtml($this->parseResponse($response));
-		$dateTime = \DateTime::createFromFormat('*, d.m.y, H:i *', $html->find('.ldt .ldtLocation .time')[0]->innerHtml);
-		$venue = $this->cleanVenue($html->find('.ldt .location a')[0]->innerHtml);
-		$location = $this->cleanLocation($venue, $html->find('.ldt .location')[0]->innerHtml);
-		$tickets = $this->getTickets($html);
-		$eventData = $this->createEventDataArray(
-			$html->find('#teaserHeadline')[0]->innerHtml,
-			$venue,
-			$location,
-			$dateTime->getTimestamp(),
-			$tickets[0]
-	);
+		$eventData = false;
+		if($html = $this->getParsedHtml($this->parseResponse($response)))
+		{
+
+			$dateTime = $this->parseDateTime($html->find('.time')[0]->innerHtml);
+			$venue = $this->parseVenue($html->find('.location a')[0]->innerHtml);
+			$location = $this->parseLocation($venue, $html->find('.location')[0]->innerHtml);
+			$tickets = $this->parseTickets($html);
+			if($dateTime && $venue && $location && $tickets) {
+				$eventData = $this->createEventDataArray(
+					$html->find('#teaserHeadline')[0]->innerHtml,
+					$venue,
+					$location,
+					$dateTime->getTimestamp(),
+					$tickets[0]
+				);
+			}
+
+		}
 		return $eventData;
 	}
 
-	private function cleanVenue(string $input)
+	private function parseDateTime(string $input)
+	{
+		return \DateTime::createFromFormat('*, d.m.y, H:i *', $input);
+	}
+
+	private function parseVenue(string $input)
 	{
 		return strip_tags($input);
 	}
 
-	private function cleanLocation(string $remove, string $input)
+	private function parseLocation(string $remove, string $input)
 	{
 		return str_replace($remove, '', strip_tags($input));
 	}
 
-	private function getTickets(Dom $html)
+	private function parseTickets(Dom $html)
 	{
 		$tickets = [];
 		foreach($html->find('#tableAssortmentList_yTix tbody tr') as $row)
@@ -64,13 +76,19 @@ class Eventim extends Base
 		{
 			return 0;
 		} else {
-			return 1;
+			$qty = (int)$row->find('select.cc-amount-selection')->lastChild()->innerHtml;
+			return $qty;
 		}
 
 	}
 
-	private function getAvailability($row)
+	private function getAvailability(Dom\HtmlNode $row)
 	{
-		return strip_tags(str_replace('&nbsp;', '', $row->find('.availability')[0]->innerHtml));
+		if($row->find('.availability')[0])
+		{
+			return strip_tags(str_replace('&nbsp;', '', $row->find('.availability')[0]->innerHtml));
+		} else {
+			return true;
+		}
 	}
 }

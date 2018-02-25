@@ -59,7 +59,25 @@ class EventimTest extends TestCase
 
 	public function testNumberOfTicketsCanBeAvailable()
 	{
-		$this->markTestIncomplete();
+		$response = $this->crawler->getClient()->request('GET', 'http://www.eventim.de/russell-peters-koeln-deutz-tickets.html?affiliate=EYA&doc=artistPages%2Ftickets&fun=artist&action=tickets&key=2119327%2410522399&jumpIn=yTix&kuid=549807&from=erdetaila');
+		$event = $this->crawler->getEventData($response);
+		$test = [
+			'name' => "Russell Peters KÖLN (DEUTZ) - Tickets",
+  			'venue' => "Theater am Tanzbrunnen",
+  			'location' => "Rheinparkweg 1, 50679 KÖLN (DEUTZ)",
+  			'timestamp' =>1525462200,
+  			'tickets' => [
+  				'category' => '1',
+    			'description' => "Sitzplatz",
+    			'price' => "Normalpreis",
+    			'qty' => 3,
+    			'available' => true
+			]
+		];
+		$this->assertSame(
+			3,
+			$event['tickets']['qty']
+		);
 	}
 
 	public function testFansaleTicketsOfEventCanBeFound()
@@ -68,6 +86,11 @@ class EventimTest extends TestCase
 	}
 
 	public function testFansaleTicketsOfEventAreAvailable()
+	{
+		$this->markTestIncomplete();
+	}
+
+	public function testIsLinkADirectEventOrAMultipleListing()
 	{
 		$this->markTestIncomplete();
 	}
